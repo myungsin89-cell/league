@@ -1,0 +1,122 @@
+/* Student medals sit below the card's score row, with room for three awards. */
+.student-card-person { align-items: flex-start; margin: 17px 0 13px; }
+.student-card-person h3 { margin-top: 0; font-size: 22px; }
+.student-card-person small { margin-top: 3px; }
+.player-btn { min-height: 105px; }
+.student-section-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.medal-examples > p:first-child { font-size: 12px; margin-bottom: 20px; }
+.medal-example-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.medal-example { position: relative; display: flex; flex-direction: column; align-items: center; padding: 25px 16px 20px; text-align: center; border: 1px solid #eee5d1; border-radius: 16px; background: linear-gradient(180deg, #fffcf3, #fff); }
+.medal-example-tag { position: absolute; top: 12px; right: 13px; color: #a19270; font-size: 9px; }
+.medal-example .honor-art { width: 110px; margin-bottom: 5px; }
+.medal-example h3 { font-size: 16px; color: #735c33; margin-bottom: 8px; }
+.medal-example p { font-size: 11px; line-height: 1.8; color: #8a816c; }
+.medal-example small { margin-top: auto; padding-top: 17px; font-size: 9px; color: #a09173; }
+.medal-example-note { font-size: 11px; line-height: 1.9; color: #8c998f; margin-top: 20px; }
+.medal-example.praise { border-color: #dce6f6; background: linear-gradient(180deg, #f3f7ff, #fff); }
+.medal-example.promotion { border-color: #d6e7dc; background: linear-gradient(180deg, #f0f8f3, #fff); }
+.medal-example.streak { border-color: #f1dcd1; background: linear-gradient(180deg, #fff5ed, #fff); }
+.medal-example.promotion h3 { color: #357968; }
+.medal-example.streak h3 { color: #b45538; }
+.medal-example.praise h3 { color: #58769e; }
+.custom-honor-tabs { margin-bottom: 20px; }
+.honor-color-options { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-top: 8px; }
+.honor-color-option { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 3px; border: 1px solid transparent; border-radius: 9px; }
+.honor-color-option.selected { border-color: #cedbcd; background: #f4f8f1; }
+.honor-color-option > span { display: flex; align-items: center; justify-content: center; width: 27px; height: 27px; border-radius: 50%; color: white; }
+.honor-color-option small { font-size: 9px; color: #889989; }
+.honor-custom-color { display: flex; align-items: center; gap: 12px; font-size: 11px; color: #839184; margin-top: 12px; }
+.honor-custom-color input[type=color] { width: 48px; min-height: 36px; height: 36px; padding: 4px; cursor: pointer; }
+.honor-custom-color small { font-size: 9px; font-variant-numeric: tabular-nums; color: #9eaa9f; }
+.custom-honor-list > div > div { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.custom-honor-list .text-btn { flex-shrink: 0; }
+.custom-honor-preview { display: flex; align-items: center; gap: 17px; margin: 22px 0; padding: 16px; border: 1px solid #e1e9f7; border-radius: 13px; background: #f6f9ff; }
+.custom-honor-preview .honor-art { width: 65px; }
+.custom-honor-preview > div { min-width: 0; }
+.custom-honor-preview small { color: #a1afc2; font-size: 9px; }
+.custom-honor-preview strong { display: block; color: #55749e; font-size: 14px; margin-top: 4px; overflow-wrap: anywhere; }
+.custom-honor-preview p { color: #8d9eb5; font-size: 10px; margin-top: 5px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.custom-honor-list .honor-art { width: 44px; }
+.student-honors {
+  margin: 0 -21px;
+  padding: 13px 13px 12px;
+  min-height: 145px;
+  border-top: 1px solid #e5eadd;
+  background: linear-gradient(180deg, #fcfcf7, #f6f6ee);
+  text-align: center;
+}
+.student-honors-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 4px 7px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #93845f;
+}
+.student-honors-heading small { font-size: 8px; font-weight: 500; color: #a89b7c; }
+.honor-strip { display: flex; justify-content: center; gap: 8px; }
+.honor-medal { display: flex; flex: 0 1 70px; min-width: 0; align-items: center; flex-direction: column; }
+.honor-art { display: block; width: 58px; max-width: 100%; height: auto; flex-shrink: 0; filter: drop-shadow(0 3px 2px #795d2212); }
+.honor-art.praise { filter: drop-shadow(0 3px 2px #40639415); }
+.honor-art.promotion { filter: drop-shadow(0 3px 2px #23644f20); }
+.honor-art.streak { filter: drop-shadow(0 3px 3px #c14f3220); }
+.honor-art.unearned { filter: grayscale(1); opacity: .25; }
+.honor-medal.praise .honor-name { color: #6482ab; }
+.honor-medal.promotion .honor-name { color: #4a8a75; }
+.honor-medal.streak .honor-name { color: #b46148; }
+.honor-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 9px;
+  font-weight: 650;
+  line-height: 1.55;
+  color: #8d7952;
+  word-break: break-word;
+  margin-top: -3px;
+  max-width: 100%;
+}
+.honor-caption { display: block; font-size: 8px; color: #a99b7c; margin-top: 8px; }
+.honors-empty { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 92px; }
+.honors-empty .honor-art { width: 41px; filter: none; }
+.honors-empty > span { font-size: 9px; color: #a1aa94; line-height: 1.9; text-align: left; }
+.honor-list > div { align-items: center; gap: 15px; border-color: #eeeadd; }
+.honor-list .honor-art { width: 57px; max-width: 57px; }
+.honor-list .honor-description { flex: 1; }
+.honor-list strong { color: #816b42; }
+.honor-list p { line-height: 1.8; }
+
+@media (max-width: 780px) {
+  .student-card-person h3 { font-size: 19px; }
+  .student-honors { margin: 0 -14px; padding: 12px 11px; }
+  .honor-strip { gap: 5px; }
+  .honor-art { width: 52px; }
+  .honor-name { font-size: 8px; }
+}
+@media (max-width: 600px) {
+  .student-card-person { margin: 13px 0 11px; }
+  .student-card-person h3 { font-size: 18px; }
+  .player-btn { min-height: 99px; }
+  .student-section-actions { flex-direction: column; align-items: flex-end; gap: 5px; }
+  .medal-example-grid { grid-template-columns: 1fr; gap: 10px; }
+  .medal-example { display: grid; grid-template-columns: 70px 1fr; column-gap: 16px; padding: 20px 16px; text-align: left; }
+  .medal-example .honor-art { width: 70px; margin-bottom: 0; grid-row: 1 / 4; }
+  .medal-example h3 { font-size: 15px; margin-bottom: 4px; }
+  .medal-example small { padding-top: 8px; }
+  .student-honors { margin: 0 -11px; padding: 11px 8px; min-height: 137px; }
+  .student-honors-heading { font-size: 8px; margin: 0 3px 9px; }
+  .honor-medal { flex-basis: 48px; }
+  .honor-art { width: 47px; }
+  .honor-name { font-size: 8px; }
+  .honor-caption { font-size: 7px; margin-top: 9px; }
+  .honors-empty { min-height: 86px; gap: 7px; }
+  .honors-empty .honor-art { width: 34px; }
+  .honors-empty > span { font-size: 8px; }
+  .student-detail .student-honors { min-height: 149px; padding: 15px 13px; }
+  .student-detail .honor-art { width: 56px; }
+  .student-detail .honor-medal { flex-basis: 65px; }
+  .student-detail .honor-name { font-size: 9px; }
+  .student-detail .honor-list .honor-art { width: 57px; }
+}
