@@ -22,6 +22,16 @@
 .ranking-panel .rank-number { width: auto; min-width: 42px; padding: 0 5px; white-space: nowrap; }
 .ranking-panel th:first-child, .ranking-panel td:first-child { width: 90px; }
 .saved-students .match-count > div { flex-direction: column; align-items: center; gap: 5px; }
+.placement-score-guide { padding: 17px 20px; margin-bottom: 16px; border-radius: 12px; background: #f0f7f3; color: #426b57; }
+.placement-score-guide > strong { font-size: 14px; }
+.placement-score-guide p { font-size: 12px; line-height: 1.9; margin: 8px 0; }
+.placement-score-guide small { font-size: 11px; line-height: 1.8; }
+.placement-guide { font-size: 12px; color: #667f70; margin-bottom: 16px; line-height: 1.8; }
+.placement-total { color: #087f72; font-size: 20px; font-variant-numeric: tabular-nums; }
+.placement-total small { margin-left: 3px; font-size: 11px; font-weight: 500; }
+.placement-breakdown { display: block; font-size: 10px; color: #809588; margin-top: 4px; white-space: nowrap; }
+.placement-incomplete .placement-breakdown { color: #95763f; }
+.placement-scores th, .placement-scores td { white-space: nowrap; }
 .player-btn { min-height: 105px; }
 .student-section-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .medal-examples > p:first-child { font-size: 12px; margin-bottom: 20px; }

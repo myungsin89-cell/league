@@ -9,6 +9,7 @@ export type Student = { id: string; name: string; number: number };
 export type Phase = { id: string; start: string; end: string; limit: number };
 export type Fixture = { id: string; a: string; b: string; league: League };
 export type Standing = Student & { league: League; rp: number; wins: number; losses: number; promotionWins: number; played: number; remaining: number; streak: number; rank: number };
+export type PlacementStanding = Student & { wins: number; losses: number; played: number; remaining: number; winRate: number; winScore: number; participationScore: number; score: number; rank: number };
 export type Round = { id: string; index: number; members: Record<string, League>; league: Phase; promotion: Phase; fixtures: Fixture[]; closed: boolean; finalRows?: Standing[]; nextMembers?: Record<string, League> };
 export type Season = { id: string; name: string; start: string; end: string; exchanges: [number, number]; rounds: Round[]; completed: boolean; nextMembers?: Record<string, League> };
 export type Match = { id: string; requestId: string; a: string; b: string; winner: string; phaseId: string; roundId: string; seasonId: string; type: 'placement' | 'league' | 'promotion'; at: string; activity: { name: string; instructions: string }; voided: boolean; revisions: { at: string; winner: string; voided: boolean; reason: string }[] };
@@ -29,9 +30,17 @@ export function makeStudents(names: string[]) {
   if (!Array.isArray(names) || names.length < 6 || names.length > 100) fail('학생은 6~100명 등록해 주세요. 세 리그에 최소 2명씩 필요합니다.');
   return names.map((name, i) => ({ id: uid(), number: i + 1, name: text(name, '학생 이름', 30) }));
 }
-export function initialAssignment(students: Student[], matches: Match[] = []): Record<string, League> {
-  const wins = (id: string) => matches.filter(m => m.type === 'placement' && !m.voided && m.winner === id).length;
-  const sorted = [...students].sort((a, b) => wins(b.id) - wins(a.id) || a.number - b.number);
+export function placementStandings(state: Pick<Classroom, 'students' | 'matches' | 'placementLimit'>): PlacementStanding[] {
+  const matches = state.matches.filter(m => m.type === 'placement' && !m.voided);
+  const rows = state.students.map(s => {
+    const own = matches.filter(m => m.a === s.id || m.b === s.id), played = own.length, wins = own.filter(m => m.winner === s.id).length;
+    return { ...s, wins, losses: played - wins, played, remaining: Math.max(0, state.placementLimit - played), winRate: played ? Math.round(wins / played * 100) : 0, winScore: wins, participationScore: played, score: played + wins, rank: 0 };
+  }).sort((a, b) => b.score - a.score || a.number - b.number);
+  rows.forEach((row, i) => { row.rank = i && row.score === rows[i - 1].score ? rows[i - 1].rank : i + 1; });
+  return rows;
+}
+export function initialAssignment(students: Student[], matches: Match[] = [], placementLimit = Math.min(4, students.length - 1)): Record<string, League> {
+  const sorted = placementStandings({ students, matches, placementLimit });
   const counts = [Math.floor(students.length / 3), Math.floor(students.length / 3), students.length - 2 * Math.floor(students.length / 3)];
   const result: Record<string, League> = {};
   sorted.forEach((s, i) => { result[s.id] = i < counts[2] ? 'champion' : i < counts[2] + counts[1] ? 'challenger' : 'rookie'; });

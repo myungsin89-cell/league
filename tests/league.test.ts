@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { LEAGUES, League, newClass, adminAction, createSeason, recordMatch, standings, generateFixtures, validateFixtures, movementPreview, closeRound, currentSeason, stage, badgesFor, correctMatch, scheduleDefaults, updateSeason, addDays, todaySeoul } from '../src/lib/league';
+import { LEAGUES, League, newClass, adminAction, createSeason, recordMatch, standings, placementStandings, initialAssignment, generateFixtures, validateFixtures, movementPreview, closeRound, currentSeason, stage, badgesFor, correctMatch, scheduleDefaults, updateSeason, addDays, todaySeoul } from '../src/lib/league';
 
 function classroom(count = 30) { const state = newClass('검증 학급', Array.from({ length: count }, (_, i) => `학생 ${i + 1}`)); adminAction(state, 'place', { members: state.initialMembers }); return state; }
 function seasonState(count = 2, size = 30) {
@@ -26,6 +26,43 @@ test('initial placement is once per class and does not carry RP', () => {
   adminAction(state, 'place', { members: state.initialMembers });
   assert.throws(() => adminAction(state, 'place', { members: state.initialMembers }), /이미/);
   assert.throws(() => recordMatch(state, { a: state.students[0].id, b: state.students[2].id, winner: state.students[0].id, phaseId: 'placement', requestId: crypto.randomUUID(), confirmed: [true, true] }, '2026-01-01'), /경기 기간/);
+});
+test('placement total awards 2 for a win and 1 for a loss, sorts scores and shares tied ranks', () => {
+  const state = newClass('배치 종합점수', Array.from({ length: 12 }, (_, i) => `학생${i}`));
+  const [a, b, c, d, e, f, g, h] = state.students.map(s => s.id);
+  record(state, a, b, a, todaySeoul()); record(state, a, c, a, todaySeoul());
+  for (const opponent of [e, f, g, h]) record(state, d, opponent, opponent, todaySeoul());
+  const rows = placementStandings(state), winning = rows.find(s => s.id === a)!, participating = rows.find(s => s.id === d)!;
+  assert.equal(winning.score, 4); assert.equal(winning.winScore, 2); assert.equal(winning.participationScore, 2);
+  assert.equal(winning.winRate, 100); assert.equal(winning.remaining, 2);
+  assert.equal(participating.score, 4); assert.equal(participating.losses, 4); assert.equal(participating.winRate, 0); assert.equal(participating.remaining, 0);
+  assert.equal(winning.rank, 1); assert.equal(participating.rank, 1);
+  assert.ok(rows.every((row, i) => i === 0 || rows[i - 1].score >= row.score));
+  assert.equal(rows.find(s => s.id === state.students[11].id)!.score, 0);
+  const suggested = initialAssignment(state.students, state.matches, state.placementLimit);
+  assert.equal(suggested[d], 'champion');
+  for (const league of LEAGUES) assert.equal(Object.values(suggested).filter(l => l === league).length, 4);
+});
+test('placement totals recalculate after winner correction and cancellation', () => {
+  const state = newClass('배치 정정', Array.from({ length: 12 }, (_, i) => `학생${i}`)), [a, b] = state.students.map(s => s.id);
+  const match = record(state, a, b, a, todaySeoul());
+  correctMatch(state, { id: match.id, winner: b, reason: '승자 정정' });
+  assert.equal(placementStandings(state).find(s => s.id === a)!.score, 1);
+  assert.equal(placementStandings(state).find(s => s.id === b)!.score, 2);
+  correctMatch(state, { id: match.id, voided: true, reason: '중복 기록 취소' });
+  assert.ok(placementStandings(state).every(s => s.score === 0 && s.played === 0 && s.rank === 1));
+});
+test('teacher final placement overrides the suggestion and later league games do not affect placement totals', () => {
+  const state = newClass('최종 배치', Array.from({ length: 12 }, (_, i) => `학생${i}`)), [a, b] = state.students.map(s => s.id);
+  record(state, a, b, a, todaySeoul());
+  const before = placementStandings(state), suggested = initialAssignment(state.students, state.matches, state.placementLimit);
+  const chosen = Object.fromEntries(Object.entries(suggested).map(([id, league]) => [id, league === 'champion' ? 'rookie' : league === 'rookie' ? 'champion' : league])) as Record<string, League>;
+  adminAction(state, 'place', { members: chosen });
+  assert.deepEqual(state.initialMembers, chosen);
+  createSeason(state, { name: '정규리그', start: todaySeoul(), end: addDays(todaySeoul(), 27), exchanges: [1, 1], rounds: scheduleDefaults(todaySeoul(), addDays(todaySeoul(), 27), 1, 2) });
+  const round = currentSeason(state)!.rounds[0], fixture = round.fixtures[0];
+  record(state, fixture.a, fixture.b, fixture.a, round.league.start);
+  assert.deepEqual(placementStandings(state), before);
 });
 test('automatic pairing is regular, unique and within leagues for every feasible size', () => {
   for (let n = 2; n <= 15; n++) for (let k = 1; k < n; k++) {
