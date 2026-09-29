@@ -71,7 +71,7 @@ export default function LeagueApp() {
       <div className="app-main"><header className="topbar"><div><span className="eyebrow">함께 도전하는 우리 반</span><h1>{view === 'admin' ? '교사 관리' : nav.find(n => n.id === view)?.label}</h1></div><div className="topbar-right"><span className="today"><Icon name="calendar" size={17} />{data.today?.replaceAll('-', '.')}</span><button className="mode-pill" onClick={data.admin ? lock : teacherOpen}><Icon name={data.admin ? 'unlock' : 'lock'} size={17} />{data.admin ? '공용 모드로 전환' : '교사 관리'}</button></div></header>
       <main className="page-content">
         {view === 'home' && <><StudentNotice state={state} /><Home state={state} current={current} rows={rows} navigate={navigate} openStudent={setStudent} /></>}
-        {view === 'record' && <><StudentNotice state={state} compact /><Recorder state={state} today={data.today!} busy={busy} mutate={mutate} home={() => navigate('home')} /></>}
+        {view === 'record' && <Recorder state={state} today={data.today!} busy={busy} mutate={mutate} home={() => navigate('home')} />}
         {view === 'students' && <Students state={state} rows={rows} members={members} open={setStudent} />}
         {view === 'ranking' && <Ranking state={state} rows={rows} league={league} setLeague={setLeague} open={setStudent} />}
         {view === 'history' && <History state={state} />}
