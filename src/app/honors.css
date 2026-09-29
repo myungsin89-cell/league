@@ -2,6 +2,24 @@
 .student-card-person { align-items: flex-start; margin: 17px 0 13px; }
 .student-card-person h3 { margin-top: 0; font-size: 22px; }
 .student-card-person small { margin-top: 3px; }
+.student-card-stats { grid-template-columns: repeat(2, 1fr); padding-bottom: 12px; }
+.match-progress { display: grid; gap: 13px; padding: 12px 0 18px; text-align: left; }
+.match-phase-label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 5px; color: #5c7465; }
+.match-count { min-width: 0; text-align: left; font-variant-numeric: tabular-nums; }
+.match-count > div { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.match-count span { font-size: 11px; color: #587161; }
+.match-count strong { font-size: 16px; color: #087f72; }
+.match-count small { font-size: 10px; color: #5c7465; white-space: nowrap; }
+.match-count.finished small { color: #087f72; font-weight: 700; }
+.match-count progress { display: block; width: 100%; height: 5px; margin-top: 6px; border: 0; border-radius: 9px; overflow: hidden; appearance: none; background: #e8eeea; }
+.match-count progress::-webkit-progress-bar { background: #e8eeea; border-radius: 9px; }
+.match-count progress::-webkit-progress-value { background: #168673; border-radius: 9px; }
+.match-count progress::-moz-progress-bar { background: #168673; border-radius: 9px; }
+.player-btn .match-count > div { flex-direction: column; align-items: center; gap: 4px; }
+.player-btn:disabled { opacity: .65; }
+.player-btn.quota-complete:disabled { opacity: 1; border-style: dashed; background: #f1f5f2; }
+.ranking-panel .match-count > div { flex-direction: column; gap: 4px; white-space: nowrap; }
+.saved-students .match-count > div { flex-direction: column; align-items: center; gap: 5px; }
 .player-btn { min-height: 105px; }
 .student-section-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .medal-examples > p:first-child { font-size: 12px; margin-bottom: 20px; }
@@ -96,6 +114,11 @@
   .honor-name { font-size: 8px; }
 }
 @media (max-width: 600px) {
+  .match-count span { font-size: 10px; }
+  .match-count small { font-size: 9px; }
+  .match-count strong { font-size: 15px; }
+  .match-phase-label { font-size: 10px; }
+  .match-count > div { gap: 3px; }
   .student-card-person { margin: 13px 0 11px; }
   .student-card-person h3 { font-size: 18px; }
   .player-btn { min-height: 99px; }

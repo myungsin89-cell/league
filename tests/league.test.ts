@@ -43,6 +43,8 @@ test('regular matches score both students, deduct both quotas, enforce idempoten
   assert.equal(rows.find(s => s.id === ids[0])!.rp, 10);
   assert.equal(rows.find(s => s.id === ids[0])!.remaining, 1);
   assert.equal(rows.find(s => s.id === ids[1])!.remaining, 1);
+  assert.equal(rows.find(s => s.id === ids[0])!.played, 1);
+  assert.equal(rows.find(s => s.id === ids[1])!.played, 1);
   assert.throws(() => record(state, ids[1], ids[0], ids[0], round.league.start), /이미 대결/);
   record(state, ids[0], ids[2], ids[2], round.league.start);
   assert.throws(() => record(state, ids[0], ids[3], ids[3], round.league.start), /경기 기회/);
@@ -65,6 +67,31 @@ test('regular and promotion quotas are separate and each phase disallows repeat 
   const state = seasonState(), round = currentSeason(state)!.rounds[0], f = round.fixtures[0];
   record(state, f.a, f.b, f.a, round.league.start); record(state, f.a, f.b, f.a, round.promotion.start);
   assert.equal(standings(state, round, round.promotion.id).find(r => r.id === f.a)!.rp, 25);
+  for (const phase of [round.league, round.promotion]) {
+    for (const id of [f.a, f.b]) {
+      const row = standings(state, round, phase.id).find(r => r.id === id)!;
+      assert.equal(row.played, 1);
+      assert.equal(row.remaining, phase.limit - 1);
+    }
+  }
+});
+
+test('placement counts wins and losses toward the maximum and cancellation restores the quota', () => {
+  const state = newClass('경기 횟수 확인', Array.from({ length: 9 }, (_, i) => `학생${i}`));
+  adminAction(state, 'placementLimit', { limit: 2 });
+  const [a, b, c, d] = state.students.map(s => s.id);
+  record(state, a, b, a, todaySeoul());
+  const lost = record(state, a, c, c, todaySeoul());
+  const row = standings(state).find(s => s.id === a)!;
+  assert.equal(row.played, 2);
+  assert.equal(row.remaining, 0);
+  assert.throws(() => record(state, a, d, d, todaySeoul()), /경기 기회/);
+  assert.throws(() => record(state, d, a, d, todaySeoul()), /경기 기회/);
+  correctMatch(state, { id: lost.id, voided: true, reason: '중복 입력 취소' });
+  assert.equal(standings(state).find(s => s.id === a)!.played, 1);
+  assert.equal(standings(state).find(s => s.id === a)!.remaining, 1);
+  record(state, d, a, d, todaySeoul());
+  assert.equal(standings(state).find(s => s.id === a)!.played, 2);
 });
 test('correction and cancellation recalculate points and restore opportunities', () => {
   const state = seasonState(), round = currentSeason(state)!.rounds[0], f = round.fixtures[0];
