@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import './honors.css';
+import './student-notice.css';
 
 export const metadata: Metadata = {
   title: '교실 리그 · 함께 도전하는 우리 반',

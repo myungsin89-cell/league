@@ -1,0 +1,23 @@
+.student-notice{padding:30px 32px;margin-bottom:24px;border:2px solid #bddbcf;border-radius:20px;background:#fff;color:#243d32}
+.student-notice-heading{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+.student-notice-icon{display:flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:16px;background:#e5f3eb;color:#087f72;flex-shrink:0}
+.student-notice .eyebrow{font-size:13px;letter-spacing:0;color:#487461;margin-bottom:2px}
+.student-notice h2{font-size:30px}
+.student-notice-facts{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:23px}
+.student-notice-facts>div{flex:1;min-width:230px;padding:17px 20px;background:#edf7f0;border-radius:13px}
+.student-notice-facts>div>span{display:block;font-size:14px;color:#4d7360;margin-bottom:6px}
+.student-notice-facts strong{font-size:25px;line-height:1.5;display:block}
+.student-notice-facts strong>span{font-size:19px;font-weight:500}
+.student-notice-rules{display:grid;gap:10px;padding-left:25px;margin:0;font-size:20px;font-weight:600;line-height:1.7}
+.student-notice-rules li::marker{color:#087f72}
+.student-notice-reminder{margin-top:20px;padding:17px 20px;border-radius:12px;background:#fff7e6;font-size:17px;line-height:1.8;color:#6b5527}
+.student-notice-reminder strong{display:block}
+.student-notice-record{display:flex;align-items:center;gap:14px;border-top:1px solid #dce9df;margin-top:22px;padding-top:20px;color:#087268}
+.student-notice-record p{font-size:19px;line-height:1.7}
+.student-notice-record span{display:block;font-size:17px;color:#50665b}
+.student-notice.compact{padding:21px 26px}
+.student-notice.compact .student-notice-heading{margin-bottom:12px}
+.student-notice.compact h2{font-size:24px}
+.student-notice.compact .student-notice-rules{font-size:17px;gap:4px}
+@media(max-width:780px){.student-notice{padding:24px}.student-notice h2{font-size:27px}.student-notice-facts strong{font-size:23px}.student-notice-rules{font-size:19px}}
+@media(max-width:600px){.student-notice{padding:21px 18px}.student-notice-heading{gap:12px}.student-notice h2{font-size:25px}.student-notice-facts{gap:10px}.student-notice-facts>div{min-width:100%;padding:14px 16px}.student-notice-facts strong{font-size:23px}.student-notice-rules{font-size:18px;padding-left:22px}.student-notice-record p{font-size:17px}.student-notice-record span,.student-notice-reminder{font-size:16px}.student-notice.compact{padding:18px}.student-notice.compact .student-notice-rules{font-size:16px}}
