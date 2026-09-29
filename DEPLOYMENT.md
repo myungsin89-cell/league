@@ -5,10 +5,17 @@
 - 학급·경기·훈장·세션: Supabase PostgreSQL.
 - 학생은 개인 계정 없이 공용 태블릿을 사용합니다.
 
+## 준비 완료 내역
+
+- GitHub `main`: 앱 소스와 Supabase 저장 코드 업로드 완료.
+- Supabase: [class-league 프로젝트](https://supabase.com/dashboard/project/dvnxmwwgtcbutpblffmv), 서울(`ap-northeast-2`), Free.
+- `class_league.classrooms`, `sessions`, `attempts` 테이블과 접근 제한 적용 완료.
+- Vercel: `league` 가져오기와 Production 전용 `DATABASE_URL` 설정 준비. 실제 공개 주소는 배포 완료 후 기록합니다.
+
 ## 1. Supabase 준비
 
 1. [Supabase Dashboard](https://supabase.com/dashboard)에 로그인하고 이 앱용 프로젝트를 만듭니다. 가능한 경우 서울 리전을 선택합니다.
-2. 데이터베이스 비밀번호를 직접 설정합니다.
+2. 데이터베이스 비밀번호를 설정하거나 서비스의 안전한 비밀번호 생성 기능을 사용합니다. 이미 만들어진 이 프로젝트는 생성 기능을 사용했습니다.
 3. SQL Editor에서 `supabase/migrations/001_class_league.sql` 전체를 실행합니다. 다시 실행해도 기존 기록을 지우지 않습니다.
 4. **Connect → Transaction pooler**에서 연결 문자열을 복사합니다. 포트는 `6543`이며, 비밀번호의 특수문자는 URL 인코딩합니다.
 
