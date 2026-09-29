@@ -5,14 +5,15 @@
 - 학급·경기·훈장·세션: Supabase PostgreSQL.
 - 학생은 개인 계정 없이 공용 태블릿을 사용합니다.
 
-## 준비 완료 내역
+## 배포 완료 내역
 
 - GitHub `main`: 앱 소스와 Supabase 저장 코드 업로드 완료.
 - Supabase: [class-league 프로젝트](https://supabase.com/dashboard/project/dvnxmwwgtcbutpblffmv), 서울(`ap-northeast-2`), Free.
 - `class_league.classrooms`, `sessions`, `attempts` 테이블과 접근 제한 적용 완료.
 - Vercel: [league 프로젝트](https://vercel.com/songmyungsins-projects/league), Production 전용 숨김 `DATABASE_URL` 저장 및 배포 완료.
 - 공개 주소: [교실 리그](https://league-lyart.vercel.app/).
-- 연결 확인 중 DB 비밀번호 인증 오류가 발견되었습니다. Supabase 비밀번호를 직접 재설정하고 Vercel의 `DATABASE_URL`을 수정한 뒤 재배포해야 합니다. 브라우저 자동화에서 비밀번호를 읽으면 가려진 값이 반환될 수 있으므로 그 값을 연결에 사용하지 않습니다.
+- 2026-09-29: DB 비밀번호 재설정과 환경변수 수정 후 재배포했습니다. 공개 주소에서 Supabase 학급 목록 조회와 새 학급 생성 화면 표시를 확인했습니다.
+- 실제 학급 생성, 교사 잠금·해제, 경기와 훈장 저장은 아래 운영 확인 절차에 따라 첫 학급에서 확인합니다. PostgreSQL 저장·세션·훈장·롤백·접근 권한을 포함한 자동 테스트 26개와 프로덕션 빌드는 통과했습니다.
 
 ## 1. Supabase 준비
 
@@ -64,4 +65,4 @@ Vercel Hobby는 개인·비상업적 사용에 한정됩니다. Supabase Free의
 
 공식 안내: [Vercel Hobby](https://vercel.com/docs/plans/hobby), [Node.js 버전](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions), [Supabase 연결](https://supabase.com/docs/guides/database/connecting-to-postgres), [Supabase 요금제](https://supabase.com/pricing).
 
-이 문서는 배포 절차입니다. 실제 배포 완료 여부와 공개 주소는 작업 결과에서 별도로 확인합니다.
+배포 주소는 [교실 리그](https://league-lyart.vercel.app/)입니다. 교사가 처음 접속해 학급 이름, 학생 명단과 교사 비밀번호를 설정합니다.
