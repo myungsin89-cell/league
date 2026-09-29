@@ -20,12 +20,13 @@ async function api(path: string, body?: object) {
 
 export default function LeagueApp() {
   const [data, setData] = useState<AppData | null>(null), [view, setView] = useState<View>('home');
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [toast, setToast] = useState<{ message: string; error: boolean } | null>(null), [busy, setBusy] = useState(false);
   const [unlock, setUnlock] = useState(false), [password, setPassword] = useState('');
   const [league, setLeague] = useState<League>('rookie'), [student, setStudent] = useState<Student | null>(null);
   const activityAt = useRef(Date.now());
   const notify = useCallback((message: string, error = false) => setToast({ message, error }), []);
-  const refresh = useCallback(async () => { try { setData(await api('state')); } catch (e) { notify((e as Error).message, true); } }, [notify]);
+  const refresh = useCallback(async () => { try { setData(await api('state')); setLoadError(null); } catch (e) { setLoadError((e as Error).message); notify((e as Error).message, true); } }, [notify]);
   useEffect(() => { refresh(); const timer = setInterval(refresh, 15000); const focus = () => refresh(); window.addEventListener('focus', focus); return () => { clearInterval(timer); window.removeEventListener('focus', focus); }; }, [refresh]);
   useEffect(() => { if (toast) { const timer = setTimeout(() => setToast(null), 6000); return () => clearTimeout(timer); } }, [toast]);
   const lock = useCallback(async () => { try { await api('auth', { action: 'lock' }); await refresh(); setView('home'); } catch (e) { notify((e as Error).message, true); } }, [refresh, notify]);
@@ -53,7 +54,7 @@ export default function LeagueApp() {
   }
   const closeUnlock = useCallback(() => { setUnlock(false); setPassword(''); }, []);
   const closeStudent = useCallback(() => setStudent(null), []);
-  if (!data) return <div className="loading"><div className="brand-mark"><Icon name="trophy" size={30} /></div><h2>교실 리그</h2><p>우리 반을 준비하고 있어요.</p>{toast && <p role="alert">{toast.message}</p>}</div>;
+  if (!data) return <div className="loading"><div className="brand-mark"><Icon name="trophy" size={30} /></div><h2>교실 리그</h2>{loadError ? <><p role="alert">학급 정보를 불러오지 못했어요.<br />{loadError}</p><button className="btn primary" onClick={refresh}>다시 연결하기</button></> : <p>우리 반을 준비하고 있어요.</p>}</div>;
   const toastElement = toast && <div role={toast.error ? 'alert' : 'status'} className={`toast ${toast.error ? 'error' : ''}`}><Icon name={toast.error ? 'close' : 'check'} size={20} />{toast.message}<button className="icon-btn" aria-label="알림 닫기" onClick={() => setToast(null)}><Icon name="close" size={16} /></button></div>;
   if (!data.state) return <><Setup classes={data.classes || []} busy={busy} submit={authenticate} />{toastElement}</>;
   const state = data.state, current = stage(state, data.today), season = currentSeason(state);

@@ -10,7 +10,9 @@
 - GitHub `main`: 앱 소스와 Supabase 저장 코드 업로드 완료.
 - Supabase: [class-league 프로젝트](https://supabase.com/dashboard/project/dvnxmwwgtcbutpblffmv), 서울(`ap-northeast-2`), Free.
 - `class_league.classrooms`, `sessions`, `attempts` 테이블과 접근 제한 적용 완료.
-- Vercel: `league` 가져오기와 Production 전용 `DATABASE_URL` 설정 준비. 실제 공개 주소는 배포 완료 후 기록합니다.
+- Vercel: [league 프로젝트](https://vercel.com/songmyungsins-projects/league), Production 전용 숨김 `DATABASE_URL` 저장 및 배포 완료.
+- 공개 주소: [교실 리그](https://league-lyart.vercel.app/).
+- 연결 확인 중 DB 비밀번호 인증 오류가 발견되었습니다. Supabase 비밀번호를 직접 재설정하고 Vercel의 `DATABASE_URL`을 수정한 뒤 재배포해야 합니다. 브라우저 자동화에서 비밀번호를 읽으면 가려진 값이 반환될 수 있으므로 그 값을 연결에 사용하지 않습니다.
 
 ## 1. Supabase 준비
 
